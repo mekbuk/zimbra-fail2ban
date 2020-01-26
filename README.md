@@ -1,12 +1,11 @@
-#setup fail2ban Zimbra Centos 7
-
 #!/bin/bash
 yum install epel-release -y
 yum install fail2ban -y
 systemctl restart fail2ban
 mkdir conf-Fail2ban
 cd conf-Fail2ban
-wget https://github.com/mekbuk/zimbra-fail2ban/archive/master.zip
+#wget https://github.com/leogallego/fail2ban-zimbra/archive/master.zip
+wget https://github.com/madrugre/zimbra-fail2ban/archive/master.zip
 unzip master.zip
 cd zimbra-fail2ban-master/
 \cp -fr action.d/* /etc/fail2ban/action.d/
@@ -21,7 +20,7 @@ cat <<EOT  >> /etc/fail2ban/jail.local
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host. Fail2ban will not
 # ban a host which matches an address in this list. Several addresses can be
 # defined using space separator.
-ignoreip = 127.0.0.1/8 103.xx.xx.xx/32 94.185.
+ignoreip = 127.0.0.1/8 91.151.65.10/32 94.185.
 
 # "bantime" is the number of seconds that a host is banned.
 bantime  = 86400
@@ -109,7 +108,7 @@ systemctl start fail2ban
 
 ------------------------------------------------------------------------------------
 
-In /etc/fail2ban/filter.d/zimbra.conf the regex should look like this:
+Dans /etc/fail2ban/filter.d/zimbra.conf les regex doient ressembler à ceci :
 
 failregex =     \[ip=<HOST>;\] account – authentication failed for .* \(no such account\)$
                 \[ip=<HOST>;\] security – cmd=Auth; .* error=authentication failed for .*, invalid password;$
@@ -122,8 +121,9 @@ failregex =     \[ip=<HOST>;\] account – authentication failed for .* \(no suc
                 WARN .*ip=<HOST>;ua=ZimbraWebClient .* security – cmd=AdminAuth; .* error=authentication failed for .*;$
                 WARN  \[.*\] \[name=.*;ip=<HOST>;ua=.*;\] security - cmd=Auth; account=.*; protocol=.*; error=.*, invalid password;
                 INFO .*ip=<HOST>;ua=zclient.*\] .* authentication failed for \[.*\], (invalid password|account not found)+:
-
-#run as zimbra                
+                
+Se connecter avec zimbra ( su zimbra )
+Whitelister l'ip loopback et l'ip wan
 zmprov mcf +zimbraHttpThrottleSafeIPs 172.0.0.1
 zmprov mcf +zimbraHttpThrottleSafeIPs x.x.x.x
 zmprov mcf +zimbraMailTrustedIP x.x.x.x
