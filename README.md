@@ -108,7 +108,7 @@ systemctl start fail2ban
 
 ------------------------------------------------------------------------------------
 
-Dans /etc/fail2ban/filter.d/zimbra.conf les regex doient ressembler à ceci :
+In /etc/fail2ban/filter.d/zimbra.conf the regex should look like this:
 
 failregex =     \[ip=<HOST>;\] account – authentication failed for .* \(no such account\)$
                 \[ip=<HOST>;\] security – cmd=Auth; .* error=authentication failed for .*, invalid password;$
@@ -122,8 +122,8 @@ failregex =     \[ip=<HOST>;\] account – authentication failed for .* \(no suc
                 WARN  \[.*\] \[name=.*;ip=<HOST>;ua=.*;\] security - cmd=Auth; account=.*; protocol=.*; error=.*, invalid password;
                 INFO .*ip=<HOST>;ua=zclient.*\] .* authentication failed for \[.*\], (invalid password|account not found)+:
                 
-Se connecter avec zimbra ( su zimbra )
-Whitelister l'ip loopback et l'ip wan
+run as zimbra ( su zimbra )
+whitelist the ip loopback from wan/lan
 zmprov mcf +zimbraHttpThrottleSafeIPs 172.0.0.1
 zmprov mcf +zimbraHttpThrottleSafeIPs x.x.x.x
 zmprov mcf +zimbraMailTrustedIP x.x.x.x
