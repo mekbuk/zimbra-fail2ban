@@ -4,8 +4,7 @@ yum install fail2ban -y
 systemctl restart fail2ban
 mkdir conf-Fail2ban
 cd conf-Fail2ban
-#wget https://github.com/leogallego/fail2ban-zimbra/archive/master.zip
-wget https://github.com/madrugre/zimbra-fail2ban/archive/master.zip
+wget https://github.com/mekbuk/zimbra-fail2ban/archive/master.zip
 unzip master.zip
 cd zimbra-fail2ban-master/
 \cp -fr action.d/* /etc/fail2ban/action.d/
